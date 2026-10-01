@@ -1,0 +1,64 @@
+<div class="dashboard">
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      🚗 <span>VehicleRent</span>
+    </div>
+
+    <div class="menu-title">MENU</div>
+
+    <a routerLink="/branches"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="menu-item">
+      🏢 <span>Branches</span>
+    </a>
+
+    <a routerLink="/vehicles"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="menu-item">
+      🚘 <span>Vehicles</span>
+    </a>
+
+    <a routerLink="/customers"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="menu-item">
+      👥 <span>Customers</span>
+    </a>
+
+    <a routerLink="/rentals"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="menu-item">
+      📋 <span>Rentals</span>
+    </a>
+
+    <a routerLink="/payments"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="menu-item">
+      💳 <span>Payments</span>
+    </a>
+
+  </aside>
+
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div>
+        <h1>Vehicle Rental Dashboard</h1>
+        <p>Manage your rental business easily</p>
+      </div>
+
+    </header>
+
+    <router-outlet></router-outlet>
+
+  </main>
+
+</div>

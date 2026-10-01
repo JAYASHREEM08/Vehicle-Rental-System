@@ -1,0 +1,48 @@
+<div class="section-header">
+  <div><h2>Vehicles</h2></div>
+  <input type="text" [(ngModel)]="searchQuery" (input)="filterData()" placeholder="Search..." style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+</div>
+
+<div *ngIf="errorMessage" style="color: red; padding: 10px; background: #fee;">{{ errorMessage }}</div>
+<div *ngIf="successMessage" style="color: green; padding: 10px; background: #efe;">{{ successMessage }}</div>
+
+<section class="add-form" style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+  <h2>{{ isEditing ? 'Edit' : 'Add New' }} Vehicle</h2>
+  <div class="form-row" style="display: flex; gap: 15px; flex-wrap: wrap; align-items: flex-end;">
+    <div class="form-group"><label>vehicleId</label><input type="text" [(ngModel)]="currentItem.vehicleId" [disabled]="isEditing"></div>
+    <div class="form-group"><label>vehicleNumber</label><input type="text" [(ngModel)]="currentItem.vehicleNumber" ></div>
+    <div class="form-group"><label>vehicleType</label><input type="text" [(ngModel)]="currentItem.vehicleType" ></div>
+    <div class="form-group"><label>rentPerDay</label><input type="number" [(ngModel)]="currentItem.rentPerDay" ></div>
+    <div class="form-group"><label>Branch</label><select [(ngModel)]="currentItem.branchId"><option *ngFor="let b of branches" [value]="b.branchId">{{b.branchName}} ({{b.city}})</option></select></div>
+    <button class="add-button" (click)="saveItem()" [disabled]="isLoading" style="padding: 10px 15px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer;">{{ isEditing ? 'Update' : '+ Add' }}</button>
+    <button *ngIf="isEditing" (click)="resetForm()" style="padding: 10px 15px; background: #9ca3af; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+  </div>
+</section>
+
+<div class="table-container">
+  <div *ngIf="isLoading" style="padding: 20px;">Loading...</div>
+  
+  <table *ngIf="!isLoading" style="width: 100%; text-align: left; background: white;">
+    <thead style="background: #f8fafc;">
+      <tr><th>vehicleId</th><th>vehicleNumber</th><th>vehicleType</th><th>rentPerDay</th><th>branchId</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of filteredItems" style="border-bottom: 1px solid #eee;">
+        <td>{{ item.vehicleId }}</td>
+        <td>{{ item.vehicleNumber }}</td>
+        <td>{{ item.vehicleType }}</td>
+        <td>{{ item.rentPerDay }}</td>
+        <td>{{ item.branchId }}</td>
+        <td>
+          <button class="edit-btn" (click)="editItem(item)" style="margin-right: 5px; padding: 5px 10px; background: #fbbf24; border: none; border-radius: 3px; cursor: pointer;">Edit</button>
+          <button class="delete-btn" (click)="deleteItem(item.vehicleId)" style="padding: 5px 10px; background: #ef4444; color: white; border: none; border-radius: 3px; cursor: pointer;">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!isLoading && filteredItems.length === 0" style="padding: 20px; text-align: center; color: #666;">
+    <p>No vehicles found.</p>
+    <p>No vehicles have been registered yet.</p>
+  </div>
+</div>

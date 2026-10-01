@@ -1,0 +1,48 @@
+<div class="section-header">
+  <div><h2>Rentals</h2></div>
+  <input type="text" [(ngModel)]="searchQuery" (input)="filterData()" placeholder="Search..." style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+</div>
+
+<div *ngIf="errorMessage" style="color: red; padding: 10px; background: #fee;">{{ errorMessage }}</div>
+<div *ngIf="successMessage" style="color: green; padding: 10px; background: #efe;">{{ successMessage }}</div>
+
+<section class="add-form" style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+  <h2>{{ isEditing ? 'Edit' : 'Add New' }} Rental</h2>
+  <div class="form-row" style="display: flex; gap: 15px; flex-wrap: wrap; align-items: flex-end;">
+    <div class="form-group"><label>rentalId</label><input type="text" [(ngModel)]="currentItem.rentalId" [disabled]="isEditing"></div>
+    <div class="form-group"><label>Customer</label><select [(ngModel)]="currentItem.customerId"><option *ngFor="let c of customers" [value]="c.customerId">{{c.customerName}}</option></select></div>
+    <div class="form-group"><label>Vehicle</label><select [(ngModel)]="currentItem.vehicleId"><option *ngFor="let v of vehicles" [value]="v.vehicleId">{{v.vehicleNumber}}</option></select></div>
+    <div class="form-group"><label>startDate</label><input type="date" [(ngModel)]="currentItem.startDate" ></div>
+    <div class="form-group"><label>returnDate</label><input type="date" [(ngModel)]="currentItem.returnDate" ></div>
+    <button class="add-button" (click)="saveItem()" [disabled]="isLoading" style="padding: 10px 15px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer;">{{ isEditing ? 'Update' : '+ Add' }}</button>
+    <button *ngIf="isEditing" (click)="resetForm()" style="padding: 10px 15px; background: #9ca3af; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+  </div>
+</section>
+
+<div class="table-container">
+  <div *ngIf="isLoading" style="padding: 20px;">Loading...</div>
+  
+  <table *ngIf="!isLoading" style="width: 100%; text-align: left; background: white;">
+    <thead style="background: #f8fafc;">
+      <tr><th>rentalId</th><th>customerId</th><th>vehicleId</th><th>startDate</th><th>returnDate</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of filteredItems" style="border-bottom: 1px solid #eee;">
+        <td>{{ item.rentalId }}</td>
+        <td>{{ item.customerId }}</td>
+        <td>{{ item.vehicleId }}</td>
+        <td>{{ item.startDate }}</td>
+        <td>{{ item.returnDate }}</td>
+        <td>
+          <button class="edit-btn" (click)="editItem(item)" style="margin-right: 5px; padding: 5px 10px; background: #fbbf24; border: none; border-radius: 3px; cursor: pointer;">Edit</button>
+          <button class="delete-btn" (click)="deleteItem(item.rentalId)" style="padding: 5px 10px; background: #ef4444; color: white; border: none; border-radius: 3px; cursor: pointer;">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!isLoading && filteredItems.length === 0" style="padding: 20px; text-align: center; color: #666;">
+    <p>No rentals found.</p>
+    <p>No rentals have been registered yet.</p>
+  </div>
+</div>
